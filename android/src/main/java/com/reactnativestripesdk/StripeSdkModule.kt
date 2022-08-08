@@ -39,6 +39,7 @@ class StripeSdkModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
   private var paymentSheetFragment: PaymentSheetFragment? = null
   private var googlePayFragment: GooglePayFragment? = null
   private var paymentLauncherFragment: PaymentLauncherFragment? = null
+  private var financialConnectionsSheetFragment: FinancialConnectionsSheetFragment? = null
 
   private var confirmPromise: Promise? = null
   private var confirmPaymentClientSecret: String? = null
@@ -50,6 +51,7 @@ class StripeSdkModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
         paymentSheetFragment?.activity?.activityResultRegistry?.dispatchResult(requestCode, resultCode, data)
         googlePayFragment?.activity?.activityResultRegistry?.dispatchResult(requestCode, resultCode, data)
         paymentLauncherFragment?.activity?.activityResultRegistry?.dispatchResult(requestCode, resultCode, data)
+        financialConnectionsSheetFragment?.activity?.activityResultRegistry?.dispatchResult(requestCode, resultCode, data)
         // END
         try {
           val result = AddPaymentMethodActivityStarter.Result.fromIntent(data)
@@ -689,12 +691,16 @@ class StripeSdkModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
 
   @ReactMethod
   fun collectBankAccountToken(clientSecret: String, promise: Promise) {
-    FinancialConnectionsSheetFragment().presentFinancialConnectionsSheet(clientSecret, FinancialConnectionsSheetFragment.Mode.ForToken, publishableKey, promise, reactApplicationContext)
+    financialConnectionsSheetFragment = FinancialConnectionsSheetFragment().also {
+      it.presentFinancialConnectionsSheet(clientSecret, FinancialConnectionsSheetFragment.Mode.ForToken, publishableKey, promise, reactApplicationContext)
+    }
   }
 
   @ReactMethod
   fun collectFinancialConnectionsAccounts(clientSecret: String, promise: Promise) {
-    FinancialConnectionsSheetFragment().presentFinancialConnectionsSheet(clientSecret, FinancialConnectionsSheetFragment.Mode.ForSession, publishableKey, promise, reactApplicationContext)
+    financialConnectionsSheetFragment = FinancialConnectionsSheetFragment().also {
+      it.presentFinancialConnectionsSheet(clientSecret, FinancialConnectionsSheetFragment.Mode.ForSession, publishableKey, promise, reactApplicationContext)
+    }
   }
 
   /**
