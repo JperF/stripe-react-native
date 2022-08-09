@@ -204,6 +204,7 @@ type RecursivePartial<T> = {
     : T[P];
 };
 export interface PaymentOption {
+  id: string;
   label: string;
   image: string;
 }

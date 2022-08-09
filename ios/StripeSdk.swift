@@ -151,6 +151,7 @@ class StripeSdk: RCTEventEmitter, STPApplePayContextDelegate, STPBankSelectionVi
                 var result: NSDictionary? = nil
                 if let paymentOption = stripeSdk?.paymentSheetFlowController?.paymentOption {
                     result = [
+                        "id": paymentOption.id,
                         "label": paymentOption.label,
                         "image": paymentOption.image.pngData()?.base64EncodedString() ?? ""
                     ]
@@ -229,6 +230,7 @@ class StripeSdk: RCTEventEmitter, STPApplePayContextDelegate, STPBankSelectionVi
                 ) {
                     if let paymentOption = self.paymentSheetFlowController?.paymentOption {
                         let option: NSDictionary = [
+                            "id": paymentOption.id,
                             "label": paymentOption.label,
                             "image": paymentOption.image.pngData()?.base64EncodedString() ?? ""
                         ]
